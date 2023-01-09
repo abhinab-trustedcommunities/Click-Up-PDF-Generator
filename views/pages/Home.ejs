@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<!-- Created by CodingLab |www.youtube.com/CodingLabYT-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <!--Importing style sheet-->
+    <!-- <link rel="stylesheet" href="./style/style.css" type="text/CSS" /> -->
+    <!--Importing style sheet-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ClickUp</title>
+
+    <%# Scripts tag starts here %> 
+    <% function convertMillisecondsToTime(milliseconds) { var hours = milliseconds /
+    3600000; milliseconds = milliseconds % 3600000; var minutes = milliseconds /
+    60000; milliseconds = milliseconds % 60000; var seconds = milliseconds /
+    1000; return parseFloat(hours).toFixed(0) + ":" +
+    parseFloat(minutes).toFixed(0) + ":" + parseFloat(seconds).toFixed(0); } %>
+
+    <!-- styling starts here -->
+
+    <style>
+      /* Google Font Link */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+      /*for all elements*/
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: apple-system, BlinkMacSystemFont, Segoe UI, roboto,
+          Helvetica Neue, helvetica, arial, sans-serif;
+          line-break: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+      }
+
+      /*for all elements ends*/
+      /*table css starts*/
+
+      .table-wrapper {
+        margin: 40px 50px 40px 50px; 
+      }
+
+      .fl-table {
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: normal;
+        /* border: none; */
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 100%;
+        white-space: nowrap;
+        background-color: white;
+      }
+
+      .fl-table td,
+      .fl-table th {
+        text-align: center;
+        padding: 8px;
+      }
+
+      .fl-table td {
+        border-bottom: 1px solid #f8f8f8;
+        font-size: 12px;
+      }
+
+      .fl-table thead th {
+        color: black;
+        background: #eeeeee;
+      }
+
+      .fl-table thead th:nth-child(odd) {
+        color: black;
+        background: #eeeeee;
+      }
+
+      .fl-table tr:nth-child(even) {
+        background: white;
+      }
+
+      /* Responsive */
+
+      @media (max-width: 767px) {
+        .fl-table {
+          display: block;
+          width: 100%;
+        }
+        .table-wrapper:before {
+          content: "Scroll horizontally >";
+          display: block;
+          text-align: right;
+          font-size: 11px;
+          color: white;
+          padding: 0 0 10px;
+        }
+        .fl-table thead,
+        .fl-table tbody,
+        .fl-table thead th {
+          display: block;
+        }
+        .fl-table thead th:last-child {
+          border-bottom: 1px solid #e6e4e4;
+        }
+        .fl-table thead {
+          float: left;
+        }
+        .fl-table tbody {
+          width: 100%;
+        }
+        .fl-table td,
+        .fl-table th {
+          padding: 20px 0.625em 0.625em 0.625em;
+          height: 60px;
+          vertical-align: middle;
+          box-sizing: border-box;
+          overflow-x: hidden;
+          overflow-y: auto;
+          width: 120px;
+          font-size: 13px;
+          text-overflow: ellipsis;
+        }
+        .fl-table thead th {
+          text-align: left;
+          border-bottom: 1px solid #f7f7f9;
+        }
+        .fl-table tbody tr {
+          display: table-cell;
+          width: 20px;
+        }
+        .fl-table tbody tr:nth-child(odd) {
+          background: none;
+        }
+        .fl-table tr:nth-child(even) {
+          background: #f8f8f8;
+          border: 1px solid #eeeeee;
+        }
+        .fl-table tr td:nth-child(odd) {
+          background: white;
+          border-bottom: 1px solid #e6e4e4;
+        }
+        .fl-table tr td:nth-child(even) {
+          border-bottom: 1px solid #e6e4e4;
+        }
+        .fl-table tbody td {
+          display: block;
+          text-align: center;
+        }
+      }
+
+      /*table css ends*/
+
+      /*Task styling ends*/
+
+      svg.usvg {
+        width: 15px;
+        height: 15px;
+        display: flex;
+        margin-bottom: -20px;
+        -webkit-align-items: center;
+        -webkit-justify-content: space-between;
+      }
+
+      p.nametasks {
+        display: block;
+        text-align: left;
+        width: 10px;
+      }
+
+      /* Task styling*/
+
+      section.home-section {
+        background-color: #eeeeee;
+        padding-top: 25px;
+        padding-bottom: 25px;
+      }
+
+      /* p {
+       padding-left: 50px;
+      } */
+
+      td.name {
+        text-align: center;
+        
+      }
+      td.nametasks {
+        text-align: left;
+        
+      }
+
+      td.timename {
+        color: #b5b5b5;
+        text-align: center;
+        width: 16px;
+      }
+      th .mname {
+        color: #8d96a3;
+      }
+
+      .svgname h2 {
+        font-size: 16px;
+        color: black;
+        text-align: left;
+        padding-left: 25px;
+      }
+
+      button {
+        background: #11101d;
+        color: white;
+        margin: 3% 50%;
+        padding: 10px 10px 10px 10px;
+        border-radius: 15px;
+        display: flex;
+        border: solid 1px #11101d;
+        font-size: 90%;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      p.path {
+        color: #a7a6a6;
+        display: block;
+        text-align: left;
+        margin-bottom: 10px;
+      }
+
+      path#red {
+        fill: red;
+      }
+
+      path#yellow {
+        fill: yellow;
+      }
+
+      path#blue {
+        fill: rgb(0, 247, 255);
+      }
+
+      path#grey {
+        fill: rgb(170, 170, 170);
+      }
+    </style>
+
+    <!-- styling ends here -->
+  </head>
+
+  <body>
+    <section class="home-section">
+      <%# PRIORITY tasks starts %>
+
+
+            
+
+
+      <%# URGENT Priority tasks starts %> <%#-- Task list starts-- --%>
+
+      <div class="table-wrapper">
+        <table class="fl-table">
+          <thead>
+            <tr>
+              <th class="svgname">
+                <div>
+                  <svg
+                    class="usvg"
+                    fill="#000000"
+                    height="800px"
+                    width="800px"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 447.514 447.514"
+                    xml:space="preserve"
+                  >
+                    <path
+                      id="red"
+                      d="M389.183,10.118c-3.536-2.215-7.963-2.455-11.718-0.634l-50.653,24.559c-35.906,17.409-77.917,16.884-113.377-1.418
+                          c-38.094-19.662-83.542-18.72-120.789,2.487V20c0-11.046-8.954-20-20-20s-20,8.954-20,20v407.514c0,11.046,8.954,20,20,20
+                          s20-8.954,20-20V220.861c37.246-21.207,82.694-22.148,120.789-2.487c35.46,18.302,77.47,18.827,113.377,1.418l56.059-27.18
+                          c7.336-3.557,11.995-10.993,11.995-19.146V20.385C394.866,16.212,392.719,12.333,389.183,10.118z"
+                    />
+
+                    <div>
+                      <h2>URGENT</h2>
+                    </div>
+                    <div><p>TASKS <%= urgentTask.length %></p></div>
+                  </svg>
+                </div>
+              </th>
+              <th class="mname"><p>ASSIGNEES</p></th>
+              <th class="mname"><p>DUE DATE</p></th>
+              <th class="mname"><p>START DATE</p></th>
+              <th class="mname"><p>STATUS</p></th>
+              <!-- <th class="mname"><p>TIME ESTIMATE</p></th>
+              <th class="mname"><p>TIME TRACKED</p></th> -->
+              <th class="mname"><p>TYPE</p></th>
+            </tr>
+          </thead>
+          <tbody>
+                <% for (let index=0; index < tasks.length || 0; index++) { %>
+                <%if(tasks[index]?.priority?.priority === "urgent" ) { %>
+                <tr>
+                      <td class="nametasks">
+                        <p class="path">
+                          <%= tasks[index]?.list?.name || "" %>
+                        </p>
+                        <p> <%= tasks[index].name || "" %> </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= tasks[index]?.assignees?.map((assignee)=>
+                          assignee.username) || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= new Date(parseInt(tasks[index].due_date))?.toDateString()
+                          || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= new
+                          Date(parseInt(tasks[index].start_date))?.toDateString() || ""
+                          %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p> <%= tasks[index].status.status || "" %> </p>
+                      </td>
+                      <!-- <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_estimate) ||
+                          "" %>
+                        </p>
+                      </td>
+                      <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_spent)|| "" %>
+                        </p>
+                      </td> -->
+                      <%tasks[index]?.custom_fields.forEach(element => { %> 
+                      <% if(element.name === "Type" ){ %> 
+                      <% if(typeof element.value !=="undefined" ){ %>
+                      <%element.type_config.options.forEach(element2=>{ %> 
+                      <%if(element2.orderindex === element.value ){ %>
+                      <td class="name"><p> <%= element2.name %> </p></td>
+                      <% } }) } else {%>
+                      <td></td>
+                      <% }} }) %>
+                  </tr>
+                <% }} %>
+             </tbody>
+          </table>
+       </div>
+
+      <%# URGENT Priority tasks ends %> 
+      
+      <%# High Priority Tasks starts here %>
+
+      <div class="table-wrapper">
+        <table class="fl-table">
+          <thead>
+            <tr>
+              <th class="svgname">
+                <div>
+                  <svg
+                    class="usvg"
+                    fill="#000000"
+                    height="800px"
+                    width="800px"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 447.514 447.514"
+                    xml:space="preserve"
+                  >
+                    <path
+                      id="yellow"
+                      d="M389.183,10.118c-3.536-2.215-7.963-2.455-11.718-0.634l-50.653,24.559c-35.906,17.409-77.917,16.884-113.377-1.418
+                          c-38.094-19.662-83.542-18.72-120.789,2.487V20c0-11.046-8.954-20-20-20s-20,8.954-20,20v407.514c0,11.046,8.954,20,20,20
+                          s20-8.954,20-20V220.861c37.246-21.207,82.694-22.148,120.789-2.487c35.46,18.302,77.47,18.827,113.377,1.418l56.059-27.18
+                          c7.336-3.557,11.995-10.993,11.995-19.146V20.385C394.866,16.212,392.719,12.333,389.183,10.118z"
+                    />
+
+                    <div>
+                      <h2>HIGH</h2>
+                    </div>
+                    <div><p>TASKS <%= highTask.length %></p></div>
+                  </svg>
+                </div>
+              </th>
+              <th class="mname"><p>ASSIGNEES</p></th>
+              <th class="mname"><p>DUE DATE</p></th>
+              <th class="mname"><p>START DATE</p></th>
+              <th class="mname"><p>STATUS</p></th>
+              <!-- <th class="mname"><p>TIME ESTIMATE</p></th>
+              <th class="mname"><p>TIME TRACKED</p></th> -->
+              <th class="mname"><p>TYPE</p></th>
+            </tr>
+          </thead>
+          <tbody>
+                <% for (let index=0; index < tasks.length || 0; index++) { %>
+                <%if(tasks[index]?.priority?.priority  === "high" ) { %>
+                <tr>
+                      <td class="nametasks">
+                        <p class="path">
+                          <%= tasks[index]?.list?.name || "" %>
+                        </p>
+                        <p> <%= tasks[index].name || "" %> </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= tasks[index]?.assignees?.map((assignee)=> assignee.username) || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= new Date(parseInt(tasks[index].due_date))?.toDateString() || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= new Date(parseInt(tasks[index].start_date))?.toDateString() || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p> <%= tasks[index].status.status || "" %> </p>
+                      </td>
+                      <!-- <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_estimate) ||
+                          "" %>
+                        </p>
+                      </td>
+                      <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_spent)|| "" %>
+                        </p>
+                      </td> -->
+                      <%tasks[index]?.custom_fields.forEach(element => { %> 
+                      <% if(element.name === "Type" ){ %> 
+                      <% if(typeof element.value !=="undefined" ){ %>
+                      <%element.type_config.options.forEach(element2=>{ %> 
+                      <%if(element2.orderindex === element.value ){ %>
+                      <td class="name"><p> <%= element2.name %> </p></td>
+                      <% } }) } else {%>
+                      <td></td>
+                      <% }} }) %>
+                  </tr>
+                <% }} %>
+             </tbody>
+          </table>
+       </div>
+
+      <%# High Priority Tasks ends here %>
+
+
+       <%# Normal Priority Tasks starts here %>
+
+       <div class="table-wrapper">
+        <table class="fl-table">
+          <thead>
+            <tr>
+              <th class="svgname">
+                <div>
+                  <svg
+                    class="usvg"
+                    fill="#000000"
+                    height="800px"
+                    width="800px"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 447.514 447.514"
+                    xml:space="preserve"
+                  >
+                    <path
+                      id="blue"
+                      d="M389.183,10.118c-3.536-2.215-7.963-2.455-11.718-0.634l-50.653,24.559c-35.906,17.409-77.917,16.884-113.377-1.418
+                          c-38.094-19.662-83.542-18.72-120.789,2.487V20c0-11.046-8.954-20-20-20s-20,8.954-20,20v407.514c0,11.046,8.954,20,20,20
+                          s20-8.954,20-20V220.861c37.246-21.207,82.694-22.148,120.789-2.487c35.46,18.302,77.47,18.827,113.377,1.418l56.059-27.18
+                          c7.336-3.557,11.995-10.993,11.995-19.146V20.385C394.866,16.212,392.719,12.333,389.183,10.118z"
+                    />
+
+                    <div>
+                      <h2>NORMAL</h2>
+                    </div>
+                    <div><p>TASKS <%= normalTask.length %></p></div>
+                  </svg>
+                </div>
+              </th>
+              <th class="mname"><p>ASSIGNEES</p></th>
+              <th class="mname"><p>DUE DATE</p></th>
+              <th class="mname"><p>START DATE</p></th>
+              <th class="mname"><p>STATUS</p></th>
+              <!-- <th class="mname"><p>TIME ESTIMATE</p></th>
+              <th class="mname"><p>TIME TRACKED</p></th> -->
+              <th class="mname"><p>TYPE</p></th>
+            </tr>
+          </thead>
+          <tbody>
+                <% for (let index=0; index < tasks.length || 0; index++) { %>
+                <%if(tasks[index]?.priority?.priority  === "normal" ) { %>
+                <tr>
+                      <td class="nametasks">
+                        <p class="path">
+                          <%= tasks[index]?.list?.name || "" %>
+                        </p>
+                        <p> <%= tasks[index].name || "" %> </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= tasks[index]?.assignees?.map((assignee)=> assignee.username) || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= new Date(parseInt(tasks[index].due_date))?.toDateString() || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= new Date(parseInt(tasks[index].start_date))?.toDateString() || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p> <%= tasks[index].status.status || "" %> </p>
+                      </td>
+                      <!-- <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_estimate) ||
+                          "" %>
+                        </p>
+                      </td>
+                      <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_spent)|| "" %>
+                        </p>
+                      </td> -->
+                      <%tasks[index]?.custom_fields.forEach(element => { %> 
+                      <% if(element.name === "Type" ){ %> 
+                      <% if(typeof element.value !=="undefined" ){ %>
+                      <%element.type_config.options.forEach(element2=>{ %> 
+                      <%if(element2.orderindex === element.value ){ %>
+                      <td class="name"><p> <%= element2.name %> </p></td>
+                      <% } }) } else {%>
+                      <td></td>
+                      <% }} }) %>
+                  </tr>
+                <% }} %>
+             </tbody>
+          </table>
+       </div>
+
+        <%# Normal Priority Tasks ends here %>
+
+
+       <%# Low Priority Tasks starts here %>
+
+       <div class="table-wrapper">
+        <table class="fl-table">
+          <thead>
+            <tr>
+              <th class="svgname">
+                <div>
+                  <svg
+                    class="usvg"
+                    fill="#000000"
+                    height="800px"
+                    width="800px"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 447.514 447.514"
+                    xml:space="preserve"
+                  >
+                    <path
+                      id="grey"
+                      d="M389.183,10.118c-3.536-2.215-7.963-2.455-11.718-0.634l-50.653,24.559c-35.906,17.409-77.917,16.884-113.377-1.418
+                          c-38.094-19.662-83.542-18.72-120.789,2.487V20c0-11.046-8.954-20-20-20s-20,8.954-20,20v407.514c0,11.046,8.954,20,20,20
+                          s20-8.954,20-20V220.861c37.246-21.207,82.694-22.148,120.789-2.487c35.46,18.302,77.47,18.827,113.377,1.418l56.059-27.18
+                          c7.336-3.557,11.995-10.993,11.995-19.146V20.385C394.866,16.212,392.719,12.333,389.183,10.118z"
+                    />
+
+                    <div>
+                      <h2>LOW</h2>
+                    </div>
+                    <div><p>TASKS <%= lowTask.length %></p></div>
+                  </svg>
+                </div>
+              </th>
+              <th class="mname"><p>ASSIGNEES</p></th>
+              <th class="mname"><p>DUE DATE</p></th>
+              <th class="mname"><p>START DATE</p></th>
+              <th class="mname"><p>STATUS</p></th>
+              <!-- <th class="mname"><p>TIME ESTIMATE</p></th>
+              <th class="mname"><p>TIME TRACKED</p></th> -->
+              <th class="mname"><p>TYPE</p></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (let index=0; index < tasks.length || 0; index++) { %>
+            <%if(tasks[index]?.priority?.priority  === "low" ) { %>
+            <tr>
+                  <td class="nametasks">
+                    <p class="path">
+                      <%= tasks[index]?.list?.name || "" %>
+                    </p>
+                    <p> <%= tasks[index].name || "" %> </p>
+                  </td>
+                  <td class="name">
+                    <p>
+                      <%= tasks[index]?.assignees?.map((assignee)=> assignee.username) || "" %>
+                    </p>
+                  </td>
+                  <td class="name">
+                    <p>
+                      <%= new Date(parseInt(tasks[index].due_date))?.toDateString() || "" %>
+                    </p>
+                  </td>
+                  <td class="name">
+                    <p>
+                      <%= new Date(parseInt(tasks[index].start_date))?.toDateString() || "" %>
+                    </p>
+                  </td>
+                  <td class="name">
+                    <p> <%= tasks[index].status.status || "" %> </p>
+                  </td>
+                 <!-- <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_estimate) ||
+                          "" %>
+                        </p>
+                      </td>
+                      <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_spent)|| "" %>
+                        </p>
+                      </td> -->
+                  <%tasks[index]?.custom_fields.forEach(element => { %> 
+                  <% if(element.name === "Type" ){ %> 
+                  <% if(typeof element.value !=="undefined" ){ %>
+                  <%element.type_config.options.forEach(element2=>{ %> 
+                  <%if(element2.orderindex === element.value ){ %>
+                  <td class="name"><p> <%= element2.name %> </p></td>
+                  <% } }) } else {%>
+                  <td></td>
+                  <% }} }) %>
+              </tr>
+            <% }} %>
+         </tbody>
+          </table>
+       </div>
+
+      <%# Low Priority Tasks ends here %>
+
+
+      <%# No Priority Tasks starts here %>
+
+      <div class="table-wrapper">
+        <table class="fl-table">
+          <thead>
+            <tr>
+              <th class="svgname">
+                <div>
+                  <svg
+                    class="usvg"
+                    fill="#000000"
+                    height="800px"
+                    width="800px"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 447.514 447.514"
+                    xml:space="preserve"
+                  >
+                    <path
+                      id="transparent"
+                      d="M389.183,10.118c-3.536-2.215-7.963-2.455-11.718-0.634l-50.653,24.559c-35.906,17.409-77.917,16.884-113.377-1.418
+                          c-38.094-19.662-83.542-18.72-120.789,2.487V20c0-11.046-8.954-20-20-20s-20,8.954-20,20v407.514c0,11.046,8.954,20,20,20
+                          s20-8.954,20-20V220.861c37.246-21.207,82.694-22.148,120.789-2.487c35.46,18.302,77.47,18.827,113.377,1.418l56.059-27.18
+                          c7.336-3.557,11.995-10.993,11.995-19.146V20.385C394.866,16.212,392.719,12.333,389.183,10.118z"
+                    />
+
+                    <div>
+                      <h2>NO PRIORITY</h2>
+                    </div>
+                    <div><p>TASKS <%= nullTask.length %></p></div>
+                  </svg>
+                </div>
+              </th>
+              <th class="mname"><p>ASSIGNEES</p></th>
+              <th class="mname"><p>DUE DATE</p></th>
+              <th class="mname"><p>START DATE</p></th>
+              <th class="mname"><p>STATUS</p></th>
+              <!-- <th class="mname"><p>TIME ESTIMATE</p></th>
+              <th class="mname"><p>TIME TRACKED</p></th> -->
+              <th class="mname"><p>TYPE</p></th>
+            </tr>
+          </thead>
+          <tbody>
+                <% for (let index=0; index < tasks.length || 0; index++) { %>
+                <%if(tasks[index].priority === null ) { %>
+                <tr>
+                      <td class="nametasks">
+                        <p class="path">
+                          <%= tasks[index]?.list?.name || "" %>
+                        </p>
+                        <p> <%= tasks[index].name || "" %> </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= tasks[index]?.assignees?.map((assignee)=>
+                          assignee.username) || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= new Date(parseInt(tasks[index].due_date))?.toDateString()
+                          || "" %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p>
+                          <%= new
+                          Date(parseInt(tasks[index].start_date))?.toDateString() || ""
+                          %>
+                        </p>
+                      </td>
+                      <td class="name">
+                        <p> <%= tasks[index].status.status || "" %> </p>
+                      </td>
+                     <!-- <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_estimate) ||
+                          "" %>
+                        </p>
+                      </td>
+                      <td class="timename">
+                        <p>
+                          <%# convertMillisecondsToTime(tasks[index].time_spent)|| "" %>
+                        </p>
+                      </td> -->
+                      <%tasks[index]?.custom_fields.forEach(element => { %> 
+                      <% if(element.name === "Type" ){ %> 
+                      <% if(typeof element.value !=="undefined" ){ %>
+                      <%element.type_config.options.forEach(element2=>{ %> 
+                      <%if(element2.orderindex === element.value ){ %>
+                      <td class="name"><p> <%= element2.name %> </p></td>
+                      <% } }) } else {%>
+                      <td></td>
+                      <% }} }) %>
+                  </tr>
+                <% }} %>
+             </tbody>
+          </table>
+       </div>
+
+      <%# No Priority  Tasks ends here %>
+      
+     <%# PRIORITY tasks ends %>
+    </section>
+  </body>
+</html>
